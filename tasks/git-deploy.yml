@@ -1,0 +1,31 @@
+# License: MIT
+#
+# Handles the deployment based on the strategy:git
+---
+- name: Create git work dir.
+  file: state=directory dest={{ laravel_work_dir }}
+
+- name: Git clone/checkout.
+  git:
+    repo: "{{ laravel_repo }}"
+    dest: "{{ laravel_work_dir }}"
+    version: "{{ laravel_branch }}"
+    accept_hostkey: yes
+    force: yes
+  ignore_errors: true
+  register: gitfetched
+
+- name: Composer install
+  include: composer.yml
+
+- name: Rsync.
+  synchronize:
+    src: "{{ laravel_work_dir }}"
+    dest: "{{ laravel_root_dir }}"
+    recursive: yes
+    delete: yes
+    rsync_path: "{{ laravel_rsync_path }}"
+    rsync_opts: "{{ laravel_rsync_opts }}"
+  delegate_to: "{{ inventory_hostname }}"
+  register: deployed
+  when: gitfetched | success

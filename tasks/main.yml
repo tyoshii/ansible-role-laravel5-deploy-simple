@@ -1,0 +1,29 @@
+# ref: https://github.com/Blacklight-Design/ansible-laravel5-deploy/blob/master/tasks/main.yml
+# License: MIT
+---
+- name: Create deployment directory.
+  include: directory.yml
+
+- name: Deploy the code.
+  include: {{ laravel_strategy }}-deploy.yml
+
+- name: Check if processing needs to continue.
+  fail: Code could not be deployed!
+  when: deployed | failed
+
+- name: Chmod storage/bootstrap dir.
+  file: state=directory path={{ laravel_root_dir }}/{{ item }} mode=0777 recurse=yes
+  with_items:
+    - storage
+    - bootstrap
+
+- name: Deploy env file
+  template: src=env.j2 dest={{ laravel_root_dir }}/.env
+
+- name: Set schedule:run crontab
+  include: crontab.yml
+  when: laravel_schedule_crontab
+
+- name: Execute extra artisan command
+  command: {{ laravel_php_path }} artisan {{ item }} chdir={{ laravel_root_dir }}
+  with_items: laravel_extra_artisan_commands

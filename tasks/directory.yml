@@ -1,0 +1,7 @@
+# ref https://github.com/Blacklight-Design/ansible-laravel5-deploy/blob/master/tasks/directory.yml
+# License: MIT
+#
+# Handles the creation of the deployment and shared directories.
+---
+- name: Create the deploy directory
+  file: state=directory path={{ laravel_root_dir }}

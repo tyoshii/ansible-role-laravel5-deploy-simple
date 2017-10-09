@@ -1,0 +1,20 @@
+# License: MIT
+#
+# Handles the creation of the crontab execute schedule:run
+---
+- name: Set crontab > env MAILTO.
+  cron:
+    name: MAILTO
+    env: yes
+    value: "{{ laravel_schedule_crontab_mailto | join(\",\") }}"
+
+- name: Set crontab > laravel schedule:run.
+  cron:
+    name: "laravel schedule:run"
+    user: "{{ laravel_schedule_crontab_user }}"
+    minute: "{{ laravel_schedule_crontab_minute }}"
+    hour: "{{ laravel_schedule_crontab_hour }}"
+    day: "{{ laravel_schedule_crontab_day }}"
+    month: "{{ laravel_schedule_crontab_month }}"
+    weekday: "{{ laravel_schedule_crontab_weekday }}"
+    job: "{{ laravel_php_path }} {{ laravel_root_dir }}/artisan schedule:run {{ laravel_schedule_crontab_options }}"
