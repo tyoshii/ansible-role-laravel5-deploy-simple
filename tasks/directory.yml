@@ -3,5 +3,10 @@
 #
 # Handles the creation of the deployment and shared directories.
 ---
+- name: Specify deploy dir
+  fail:
+    msg: "Require: laravel_root_dir"
+  when: not laravel_root_dir
+
 - name: Create the deploy directory
   file: state=directory path={{ laravel_root_dir }}

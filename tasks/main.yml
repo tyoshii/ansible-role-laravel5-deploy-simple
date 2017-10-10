@@ -5,11 +5,13 @@
   include: directory.yml
 
 - name: Deploy the code.
-  include: {{ laravel_strategy }}-deploy.yml
+  include: git-deploy.yml
+  when: laravel_strategy == "git"
 
 - name: Check if processing needs to continue.
-  fail: Code could not be deployed!
-  when: deployed | failed
+  fail:
+    msg: "Code could not be deployed!"
+  when: deployed|failed
 
 - name: Chmod storage/bootstrap dir.
   file: state=directory path={{ laravel_root_dir }}/{{ item }} mode=0777 recurse=yes
@@ -25,5 +27,5 @@
   when: laravel_schedule_crontab
 
 - name: Execute extra artisan command
-  command: {{ laravel_php_path }} artisan {{ item }} chdir={{ laravel_root_dir }}
+  shell: cd {{ laravel_root_dir }} && {{ laravel_php_path }} artisan {{ item }}
   with_items: laravel_extra_artisan_commands

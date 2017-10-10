@@ -28,5 +28,6 @@
   ignore_errors: true
 
 - name: Check if processing needs to continue.
-  fail: Composer install failed!
+  fail:
+    msg: "Composer install failed!"
   when: composer_install_complete | failed

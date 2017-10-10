@@ -3,18 +3,18 @@ laravel_root_dir:
 laravel_strategy: git
 laravel_repo:
 laravel_branch: master
-laravel_work_dir: {{ hostvars[inventory_hostname]['ansible_env']['PWD'] }}/.ansible-laravel5-deploy-simple-workdir/
+laravel_work_dir: "{{ ansible_env.HOME }}/.ansible-laravel5-deploy-simple-workdir/"
 laravel_rsync_path: /usr/bin/rsync
 laravel_rsync_opts: []
 
 laravel_schedule_crontab: no
 laravel_schedule_crontab_mailto: []
 laravel_schedule_crontab_user: root
-laravel_schedule_crontab_minute: *
-laravel_schedule_crontab_hour: *
-laravel_schedule_crontab_day: *
-laravel_schedule_crontab_month: *
-laravel_schedule_crontab_weekday: *
+laravel_schedule_crontab_minute: "*"
+laravel_schedule_crontab_hour: "*"
+laravel_schedule_crontab_day: "*"
+laravel_schedule_crontab_month: "*"
+laravel_schedule_crontab_weekday: "*"
 laravel_schedule_crontab_options: "2>&1 | logger"
 
 laravel_php_path: /usr/bin/env php
