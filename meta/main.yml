@@ -1,6 +1,6 @@
 galaxy_info:
   author: Takanao Yoshii
-  description: Engineer, JAPAN, Tokyo
+  description: simple deploy laravel5 application, not like Ansistrano, instead use rsync
   company:
 
   # If the issue tracker for your role is not on github, uncomment the
