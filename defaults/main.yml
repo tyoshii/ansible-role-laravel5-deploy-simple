@@ -23,4 +23,8 @@ laravel_composer_options:
 
 laravel_extra_artisan_commands: []
 
-laravel_env: []
+laravel_env_app_env:
+laravel_env_app_debug:
+laravel_env_app_log_level:
+laravel_env_app_url:
+laravel_env_extra: []
